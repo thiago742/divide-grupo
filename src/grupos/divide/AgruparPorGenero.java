@@ -1,54 +1,43 @@
 package grupos.divide;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+
+import java.util.stream.Collectors;
 
 public class AgruparPorGenero {
     public static void main(String[] args) {
     	
         Scanner sc = new Scanner(System.in);
-        System.out.println("digite os nomes separados por , ");
+        System.out.println("liste nomes com gêneros m para masculino e f para feminino (ex: julio-m) separados por ',' ");
         
         String resposta = sc.nextLine();
         
+        List<String> names = Arrays.stream(resposta.split(","))
+        	    .collect(Collectors.toList()); 
         
+        List<String> namesFem = Arrays.stream(resposta.split(","))
+        		.filter(entry -> entry.endsWith("-f"))
+        	    .map(entry -> entry.split("-")[0])
+        	    .collect(Collectors.toList()); 
         
-        List<String> names = new ArrayList<>();
-        for (String name : resposta.split(",")) {
-            names.add(name.trim());
-        }        
+        List<String> namesMasc = Arrays.stream(resposta.split(","))
+        		.filter(entry -> entry.endsWith("-m"))
+        	    .map(entry -> entry.split("-")[0])
+        	    .collect(Collectors.toList()); 
+		
+	
+        System.out.println("--- Lista de pessoas ---");
+        System.out.println(names);
         
-        Set<String> grupoMasc = new TreeSet<>();
-        Set<String> grupoFem = new TreeSet<>();
+        System.out.println("--- Lista feminina ---");
+        System.out.println(namesFem);
         
-		for (String name : names) {
-			
-            System.out.println("digite o sexo de " + name + ", insira 'm' para masculino ou 'f' para feminino");
-            
-            String sexo = sc.nextLine();
-            
-            if (sexo.equalsIgnoreCase("m")) {
-                grupoMasc.add(name);
-            }
-            else if (sexo.equalsIgnoreCase("f")) {
-                grupoFem.add(name);
-            }
-            while (!sexo.equalsIgnoreCase("m") && !sexo.equalsIgnoreCase("f")) {
-                System.out.println("Insira um sexo válido ('m' ou 'f'):");
-                sexo = sc.nextLine();
-            }
-
-        }
-        
-        System.out.println("--- Grupo Masculino ---");
-        System.out.println(grupoMasc);
-        
-        System.out.println("--- Grupo Feminino ---");
-        System.out.println(grupoFem);
+        System.out.println("--- Lista masculina ---");
+        System.out.println(namesMasc);
         
         sc.close();
     }
+
 }
